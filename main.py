@@ -6,6 +6,7 @@ import time
 from cv2 import trace
 import numpy
 import os
+import sys
 import imutils 
 import logging
 from threading import Thread
@@ -149,7 +150,10 @@ def settings():
 
         #3rd party rest integration
         "ENABLE_REMOTE_AUTH":ENABLE_REMOTE_AUTH,
-        "REMOTE_AUTH_URL":REMOTE_AUTH_URL
+        "REMOTE_AUTH_URL":REMOTE_AUTH_URL,
+
+        #UDP Broadcast
+        "AUTO_SEARCH_PORT":32777
     }
     return jsonify(results = payload)
 
@@ -181,16 +185,16 @@ def startCam():
     
     if(CAMERA_TYPE!=0):
         cap = cv2.VideoCapture(CAMERA_URL,cv2.CAP_FFMPEG) #-> camera rtsp
-        print('Connecting RTSP URI: ' + CAMERA_URL)
+        print('Connecting RTSP URI: ' + CAMERA_URL,file=sys.stdout)
     else:
         cap = cv2.VideoCapture(0) #uri da webcam -> 0
-        print('Connecting WEBCAM 0')
+        print('Connecting WEBCAM 0',file=sys.stdout)
     
          # Test to see video size
     size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
         int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
     
-    print('size:'+repr(size))
+    print('size:'+repr(size),file=sys.stdout)
 
     while cap.isOpened():
         #this skip some frames
@@ -228,7 +232,7 @@ def startCam():
                             img = cv2.putText(img, str(name["predicted_label"]), (70, 50), cv2.FONT_HERSHEY_SIMPLEX, 
                                                     1, (255, 0, 0), 2, cv2.LINE_AA) 
                             execution_time=time.time()-execution_time
-                            print("AUTENTICATED IN {} SECONDS".format(execution_time))
+                            print("AUTENTICATED IN {} SECONDS".format(execution_time),file=sys.stdout)
                             speed_queue.put(1)   
                             if(ENABLE_WIEGAND):
                                 try:
@@ -267,7 +271,7 @@ def startCam():
             #cv2.imshow(str(cameraUri), img)
         else:
             #try reconnect camera
-            print("Fail to read frames. Trying reconnect camera...")
+            print("Fail to read frames. Trying reconnect camera...",file=sys.stdout)
             attemps=0
             while(True):
                 attemps+=1
@@ -275,16 +279,16 @@ def startCam():
                 time.sleep(5)
                 if(CAMERA_TYPE!=0):
                     cap = cv2.VideoCapture(CAMERA_URL,cv2.CAP_FFMPEG) #-> camera rtsp
-                    print('Connecting RTSP URI: ' + CAMERA_URL)
+                    print('Connecting RTSP URI: ' + CAMERA_URL,file=sys.stdout)
                 else:
                     cap = cv2.VideoCapture(0) #uri da webcam -> 0
-                    print('Connecting WEBCAM 0')
+                    print('Connecting WEBCAM 0',file=sys.stdout)
                 if(cap.isOpened()):
                     ret, img = cap.read()
                     if(ret):
                         break
                 else:
-                    print("Fail to connect - Attemps: {}",attemps)
+                    print("Fail to connect - Attemps: " + str(attemps),file=sys.stdout)
 
         k = cv2.waitKey(1) & 0xff
         if k==27:
@@ -293,7 +297,7 @@ def startCam():
             break
         elif k==ord('a'):
             cv2.imwrite('userimage.jpg', img)
-            print("pressed a")
+            print("pressed a to exit",file=sys.stdout)
 
 if __name__ == "__main__":
 

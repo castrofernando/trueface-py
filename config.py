@@ -11,7 +11,7 @@ VB_SPOOF_DETECT_THRESHOLD=0.6
 VB_ENABLE_SPOOF_DETECT=True
 VB_COLLECTION_ID='test'
 VB_NAMESPACE='acesse'
-CAMERA_TYPE=1 #0 -> Webcam / 1 -> RTSP
+CAMERA_TYPE=0 #0 -> Webcam / 1 -> RTSP
 CAMERA_URL='rtsp://192.168.15.120/video.pro4' #this cam be ignored if used webcam
 
 #wiegand settings 

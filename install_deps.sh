@@ -18,12 +18,12 @@ sudo apt-get install libatlas-base-dev gfortran -y
 sudo apt-get install zbar-tools -y
 
 echo "Instalando pacotes do python"
-sudo pip install Flask -y
-sudo pip install imutils -y
-sudo pip install -U numpy -y
-sudo pip install opencv_contrib_python -y
-sudo pip install psutil -y
-sudo pip install pyzbar -y
-sudo pip install requests -y
+sudo pip install Flask 
+sudo pip install imutils 
+sudo pip install -U numpy 
+sudo pip install opencv_contrib_python==4.5.5.62 
+sudo pip install psutil 
+sudo pip install pyzbar 
+sudo pip install requests 
 
 echo "Instalação finalizada"

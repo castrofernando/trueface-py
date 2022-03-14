@@ -54,7 +54,7 @@ def remoteAuthenticate(credential):
         payload = {
             "terminal_id": TERMINAL_ID,
             "credential": credential,
-            "event_image": encoded_imageb64
+            "event_image": encoded_imageb64.decode('utf-8')
             }
         response = requests.post(url=REMOTE_AUTH_URL,json=payload)
         print(response)
